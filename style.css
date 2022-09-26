@@ -41,9 +41,10 @@
   img {
     max-width: 200px;
     max-height: 200px;
-    display: inline-block;
+    /*display: inline-block;*/
+    display: block left;
     margin-left: 100px;
-    margin-top: 50px;
+    margin-top: 400px;
     padding-bottom: 50px;
   }
   
