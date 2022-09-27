@@ -24,7 +24,7 @@ let productThree = document.getElementById('productThree');
 
 function Product(name, filepath, altText) {
   this.name = name;
-  this.filepath = filepath;
+  this.filepath = filepath; /*'img/${name}.${fileExtension}';*/
   this.altText = altText;
   this.votes = 0;
   this.views = 0;
@@ -52,13 +52,32 @@ new Product('Unicorn Meat', 'img/unicorn.jpg', 'Unicorn Meat');
 new Product('Watering Can', 'img/water-can.jpg', 'Watering Can');
 new Product('Wine Glass', 'img/wine-glass.jpg', 'Wine Glass');
 
+//Retrieving data from local storage, if it exists
+if (localStorage.getItem('storedProducts') !== null) {
+  console.log('Data found');
+  Product.allProducts = JSON.parse(localStorage.getItem('storedProducts'));
+} else {
+  console.log('Not found');
+  localStorage.setItem('storedProducts', JSON.stringify(Product.allProducts));
+}
+
 
 //  randomly display products
 function randomProduct() {
   let randomOne = Math.floor(Math.random() * Product.allProducts.length);
   let randomTwo = Math.floor(Math.random() * Product.allProducts.length);
   let randomThree = Math.floor(Math.random() * Product.allProducts.length);
-  // confirm no duplicate photos
+  // confirm no duplicate photos 
+  //   while(allProducts.length < 3){
+  //   let allProducts = allProducts();
+  //   if(!allProducts.includes(randomProduct)){
+  //     allProducts.push(randomProduct);
+  //   }
+  // }
+  // let randomOne = allProducts.shift();
+  // let randomTwo = allProducts.shift();
+  // let randomThree = allProducts.shift();
+
   while (Product.lastDisplayed.includes(randomOne) || Product.lastDisplayed.includes(randomTwo) || Product.lastDisplayed.includes(randomThree) || randomOne === randomTwo || randomTwo == randomThree || randomThree == randomOne) {
     randomOne = Math.floor(Math.random() * Product.allProducts.length);
     randomTwo = Math.floor(Math.random() * Product.allProducts.length);
@@ -96,17 +115,20 @@ function newThree(event) {
   for (let i = 0; i < Product.allProducts.length; i++) {
     if (event.target.altText === Product.allProducts[i].altText) {
       Product.allProducts[i].votes++;
-      //updateChartArrays();
+      updateChartArrays();
     }
   }
   if (clicks < 1) {
     section.removeEventListener('click', newThree);
     productSection.innerHTML = '';
+    localStorage.setItem('storedProducts', JSON.stringify(Product.allProducts));
+    drawChart();
   }
   randomProduct();
 }
 
 //  event listener
 section.addEventListener('click', newThree);
+resultsBtn.addEventListener('click', handleShowResults);
 
 randomProduct();
