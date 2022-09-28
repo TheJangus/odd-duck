@@ -132,3 +132,8 @@ section.addEventListener('click', newThree);
 resultsBtn.addEventListener('click', handleShowResults);
 
 randomProduct();
+
+//// this is nonthing special
+/////just making random updates
+///in order to do a push
+/// ok cool
